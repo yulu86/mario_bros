@@ -21,17 +21,5 @@ class MarioGame extends FlameGame {
       position: Vector2(100, 100),
       size: Vector2(100, 100),
     ));
-
-    // final marioSpriteSheet = SpriteSheet(
-    //   image: marioImage,
-    //   srcSize: Vector2(680, 1252),
-    // );
-
-    // Sprite sprite = marioSpriteSheet.getSprite(0, 0);
-    // add(SpriteComponent(
-    //   sprite: sprite,
-    //   position: Vector2(0, 0),
-    //   size: Vector2(680, 1252),
-    // ));
   }
 }
