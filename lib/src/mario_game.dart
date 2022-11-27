@@ -2,20 +2,36 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame/sprite.dart';
 
 class MarioGame extends FlameGame {
-  // late Image _marioImage;
+  late Image marioImage;
 
   @override
   Future<void>? onLoad() async {
-    final sprite = await loadSprite('mario_sprites.gif');
-    add(
-      SpriteComponent(
-        sprite: sprite,
-        position: size / 2,
-        size: sprite.srcSize * 2,
-        anchor: Anchor.center,
-      ),
+    marioImage = await images.load('mario_sprites.gif');
+
+    final upSprite = await loadSprite(
+      'mario_sprites.gif',
+      srcSize: Vector2(100, 100),
+      srcPosition: Vector2(0, 0),
     );
+    add(SpriteComponent(
+      sprite: upSprite,
+      position: Vector2(100, 100),
+      size: Vector2(100, 100),
+    ));
+
+    // final marioSpriteSheet = SpriteSheet(
+    //   image: marioImage,
+    //   srcSize: Vector2(680, 1252),
+    // );
+
+    // Sprite sprite = marioSpriteSheet.getSprite(0, 0);
+    // add(SpriteComponent(
+    //   sprite: sprite,
+    //   position: Vector2(0, 0),
+    //   size: Vector2(680, 1252),
+    // ));
   }
 }
