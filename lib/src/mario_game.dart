@@ -13,13 +13,13 @@ class MarioGame extends FlameGame {
 
     final upSprite = await loadSprite(
       'mario_sprites.gif',
-      srcSize: Vector2(100, 100),
+      srcSize: Vector2(680, 1252),
       srcPosition: Vector2(0, 0),
     );
     add(SpriteComponent(
       sprite: upSprite,
-      position: Vector2(100, 100),
-      size: Vector2(100, 100),
+      position: Vector2(0, 0),
+      size: Vector2(680, 1252),
     ));
   }
 }
