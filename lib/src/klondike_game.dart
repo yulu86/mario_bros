@@ -54,6 +54,13 @@ class KlondikeGame extends FlameGame {
       ..addAll(piles);
 
     add(world);
+
+    final camera = CameraComponent(world: world)
+      ..viewfinder.visibleGameSize =
+          Vector2(cardWidth * 7 + cardGap * 8, 4 * cardHeight + 3 * cardGap)
+      ..viewfinder.position = Vector2(cardWidth * 3.5 + cardGap * 4, 0)
+      ..viewfinder.anchor = Anchor.topCenter;
+    add(camera);
   }
 
   Sprite kondikeSprite(double x, double y, double width, double height) {
