@@ -1,5 +1,3 @@
-# mario_bros
+# klondike
 
-自制超级马里奥兄弟游戏。
-
-查看 [https://yulu86.github.io/mario_bros/](https://yulu86.github.io/mario_bros/)
+> 参考：[https://ilgnefz.github.io/flame-cn/guide/tutorials/klondike/klondike.html](https://ilgnefz.github.io/flame-cn/guide/tutorials/klondike/klondike.html)
