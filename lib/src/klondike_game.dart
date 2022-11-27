@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:mario_bros/src/components/foundation.dart';
 import 'package:mario_bros/src/components/pile.dart';
@@ -7,42 +8,35 @@ import 'package:mario_bros/src/components/stock.dart';
 import 'package:mario_bros/src/components/waste.dart';
 
 class KlondikeGame extends FlameGame {
-  // 卡片大小
-  static const double cardWidth = 1000;
-  static const double cardHeight = 1400;
-  // 卡片间隔
-  static const double cardGap = 175;
-  static const double cardRadius = 100;
+  static const double cardGap = 175.0;
+  static const double cardWidth = 1000.0;
+  static const double cardHeight = 1400.0;
+  static const double cardRadius = 100.0;
   static final Vector2 cardSize = Vector2(cardWidth, cardHeight);
 
   @override
-  Future<void>? onLoad() async {
-    var image = await images.load('klondike-sprites.png');
+  Future<void> onLoad() async {
+    await Flame.images.load('klondike-sprites.png');
 
     final stock = Stock()
       ..size = cardSize
       ..position = Vector2(cardGap, cardGap);
-
     final waste = Waste()
       ..size = cardSize
       ..position = Vector2(cardWidth + 2 * cardGap, cardGap);
-
     final foundations = List.generate(
       4,
-      (index) => Foundation()
+      (i) => Foundation()
         ..size = cardSize
-        ..position = Vector2(
-          (index + 3) * (cardWidth + cardGap) + cardGap,
-          cardGap,
-        ),
+        ..position =
+            Vector2((i + 3) * (cardWidth + cardGap) + cardGap, cardGap),
     );
-
     final piles = List.generate(
       7,
-      (index) => Pile()
+      (i) => Pile()
         ..size = cardSize
         ..position = Vector2(
-          cardGap + index * (cardWidth + cardGap),
+          cardGap + i * (cardWidth + cardGap),
           cardHeight + 2 * cardGap,
         ),
     );
@@ -52,7 +46,6 @@ class KlondikeGame extends FlameGame {
       ..add(waste)
       ..addAll(foundations)
       ..addAll(piles);
-
     add(world);
 
     final camera = CameraComponent(world: world)
@@ -62,12 +55,12 @@ class KlondikeGame extends FlameGame {
       ..viewfinder.anchor = Anchor.topCenter;
     add(camera);
   }
+}
 
-  Sprite kondikeSprite(double x, double y, double width, double height) {
-    return Sprite(
-      images.fromCache('klondike-sprites.png'),
-      srcPosition: Vector2(x, y),
-      srcSize: Vector2(width, height),
-    );
-  }
+Sprite klondikeSprite(double x, double y, double width, double height) {
+  return Sprite(
+    Flame.images.fromCache('klondike-sprites.png'),
+    srcPosition: Vector2(x, y),
+    srcSize: Vector2(width, height),
+  );
 }
