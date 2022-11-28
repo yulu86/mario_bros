@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -36,6 +34,18 @@ class MarioGame extends FlameGame {
     add(SpriteComponent(
       sprite: getMarioSprite(x: 23, y: 507, width: 13, height: 16),
       position: Vector2(102, 34),
+      size: Vector2(39, 48),
+    ));
+
+    add(SpriteComponent(
+      sprite: getMarioSprite(x: 23, y: 507, width: 13, height: 16),
+      position: Vector2(102, 34),
+      size: Vector2(39, 48),
+    ));
+
+    add(SpriteComponent(
+      sprite: getMarioSprite(x: 7, y: 786, width: 13, height: 16),
+      position: Vector2(238, 34),
       size: Vector2(39, 48),
     ));
   }
