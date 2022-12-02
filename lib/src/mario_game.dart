@@ -1,9 +1,13 @@
+import 'dart:ui';
+
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
-import 'package:flame/sprite.dart';
 
 class MarioGame extends FlameGame {
+  @override
+  Color backgroundColor() => const Color(0xFF58B1F6);
+
   @override
   Future<void>? onLoad() async {
     await images.load(spriteImage);
