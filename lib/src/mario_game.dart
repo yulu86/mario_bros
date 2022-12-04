@@ -33,24 +33,18 @@ class MarioGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    final isKeyDown = event is RawKeyDownEvent;
-    if (isKeyDown) {
-      // 跳跃
-      if (isJumpingKeyPressed(keysPressed)) {
-        player.jump(startSpeed, RunningDirection.none);
-      }
-      // 向左奔跑
-      else if (isRunningLeftKeyPressed(keysPressed)) {
-        player.run(startSpeed, RunningDirection.left);
-      }
-      // 向右奔跑
-      else if (isRunningRightKeyPressed(keysPressed)) {
-        player.run(startSpeed, RunningDirection.right);
-      }
-    } else {
-      player.reset();
+    // 跳跃
+    if (isJumpingKeyPressed(keysPressed)) {
+      player.jump(startSpeed, RunningDirection.none);
     }
-
+    // 向左奔跑
+    else if (isRunningLeftKeyPressed(keysPressed)) {
+      player.run(startSpeed, RunningDirection.left);
+    }
+    // 向右奔跑
+    else if (isRunningRightKeyPressed(keysPressed)) {
+      player.run(startSpeed, RunningDirection.right);
+    }
     return KeyEventResult.handled;
   }
 }

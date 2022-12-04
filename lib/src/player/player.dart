@@ -59,8 +59,6 @@ abstract class Player extends SpriteAnimationGroupComponent<PlayerState>
       if (y > groundYPosition) {
         reset();
       }
-    } else {
-      y = groundYPosition;
     }
   }
 
