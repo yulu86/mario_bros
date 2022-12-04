@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:mario_bros/src/player/player.dart';
+import 'package:mario_bros/src/player/player_mode.dart';
 
 class Mario extends Player {
   Mario() : super(size: Vector2(32, 32), playerMode: PlayerMode.normal);

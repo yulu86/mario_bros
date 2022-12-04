@@ -1,43 +1,9 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:mario_bros/src/mario_game.dart';
-
-/// 玩家状态
-enum PlayerState {
-  /// 失败
-  crashed,
-
-  /// 跳跃
-  jumping,
-
-  /// 奔跑
-  running,
-
-  /// 等待
-  waiting,
-
-  /// 下蹲
-  squat,
-}
-
-/// 玩家模式
-enum PlayerMode {
-  // 一般状态
-  normal,
-
-  // 变大状态
-  large,
-
-  // 火力花状态
-  power,
-}
-
-/// 移动方向
-enum MoveDirection {
-  none,
-  left,
-  right,
-}
+import 'package:mario_bros/src/player/player_mode.dart';
+import 'package:mario_bros/src/player/player_state.dart';
+import 'package:mario_bros/src/player/running_direction.dart';
 
 /// 玩家
 abstract class Player extends SpriteAnimationGroupComponent<PlayerState>
@@ -101,7 +67,7 @@ abstract class Player extends SpriteAnimationGroupComponent<PlayerState>
   // TODO: 实现玩家碰撞
 
   /// 跳跃
-  void jump(double speed, MoveDirection moveDirection) {
+  void jump(double speed, RunningDirection runningDirection) {
     if (current == PlayerState.jumping) {
       return;
     }
@@ -111,7 +77,7 @@ abstract class Player extends SpriteAnimationGroupComponent<PlayerState>
   }
 
   /// 奔跑
-  void run(double speed, MoveDirection moveDirection) {
+  void run(double speed, RunningDirection runningDirection) {
     current = PlayerState.running;
   }
 

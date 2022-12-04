@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:mario_bros/src/game_controller.dart';
 import 'package:mario_bros/src/player/mario/mario.dart';
 import 'package:mario_bros/src/player/player.dart';
+import 'package:mario_bros/src/player/running_direction.dart';
 
 class MarioGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
   late final Image spriteImage;
@@ -36,15 +37,15 @@ class MarioGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
     if (isKeyDown) {
       // 跳跃
       if (isJumpingKeyPressed(keysPressed)) {
-        player.jump(startSpeed, MoveDirection.none);
+        player.jump(startSpeed, RunningDirection.none);
       }
       // 向左奔跑
       else if (isRunningLeftKeyPressed(keysPressed)) {
-        player.run(startSpeed, MoveDirection.left);
+        player.run(startSpeed, RunningDirection.left);
       }
       // 向右奔跑
       else if (isRunningRightKeyPressed(keysPressed)) {
-        player.run(startSpeed, MoveDirection.right);
+        player.run(startSpeed, RunningDirection.right);
       }
     } else {
       player.reset();
