@@ -1,71 +1,74 @@
 import 'dart:ui';
 
-import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flame/input.dart';
+import 'package:flutter/material.dart' hide Image;
+import 'package:flutter/services.dart';
+import 'package:mario_bros/src/player/mario/mario.dart';
+import 'package:mario_bros/src/player/player.dart';
 
-class MarioGame extends FlameGame {
+class MarioGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
+  late final Image spriteImage;
+
+  late final Player player;
+
+  final double startSpeed = 600;
+
+  static final List<LogicalKeyboardKey> arrowKeys = [
+    LogicalKeyboardKey.arrowDown,
+    LogicalKeyboardKey.arrowUp,
+    LogicalKeyboardKey.arrowLeft,
+    LogicalKeyboardKey.arrowRight,
+  ];
+
+  static final List<LogicalKeyboardKey> movementKeys = [
+    LogicalKeyboardKey.keyW,
+    LogicalKeyboardKey.keyS,
+    LogicalKeyboardKey.keyA,
+    LogicalKeyboardKey.keyD,
+  ];
+
   @override
-  Color backgroundColor() => const Color(0xFF58B1F6);
+  Color backgroundColor() {
+    return const Color(0xFF7284F0);
+  }
 
   @override
   Future<void>? onLoad() async {
-    await images.load(spriteImage);
-
-    addAll([
-      SpriteComponent(
-        sprite: getMarioSprite(x: 52, y: 43, width: 16, height: 16),
-        position: Vector2(150, 50),
-        size: Vector2(32, 32),
-      ),
-      SpriteComponent(
-        sprite: getMarioSprite(x: 71, y: 43, width: 16, height: 16),
-        position: Vector2(200, 50),
-        size: Vector2(32, 32),
-      ),
-    ]);
-
-    final brickSpriteComponents = List.generate(
-      15,
-      (index) => SpriteComponent(
-        sprite: getMarioSprite(x: 373, y: 47, width: 16, height: 16),
-        position: Vector2(0 + index * 32, 82),
-        size: Vector2(32, 32),
-      ),
-    ).toList();
-    addAll(brickSpriteComponents);
-
-    add(SpriteComponent(
-      sprite: getMarioSprite(x: 23, y: 507, width: 13, height: 16),
-      position: Vector2(102, 34),
-      size: Vector2(39, 48),
-    ));
-
-    add(SpriteComponent(
-      sprite: getMarioSprite(x: 23, y: 507, width: 13, height: 16),
-      position: Vector2(102, 34),
-      size: Vector2(39, 48),
-    ));
-
-    add(SpriteComponent(
-      sprite: getMarioSprite(x: 7, y: 786, width: 13, height: 16),
-      position: Vector2(238, 34),
-      size: Vector2(39, 48),
-    ));
+    spriteImage = await Flame.images.load('mario_sprites.gif');
+    add(player = Mario());
   }
-}
 
-const String spriteImage = 'mario_sprites.gif';
+  @override
+  KeyEventResult onKeyEvent(
+    RawKeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    // 跳跃
+    if (_isJumpingKeyPressed(keysPressed)) {
+      player.jump(startSpeed, MoveDirection.none);
+    }
+    return KeyEventResult.handled;
+  }
 
-Sprite getMarioSprite({
-  required double x,
-  required double y,
-  required double width,
-  required double height,
-}) {
-  return Sprite(
-    Flame.images.fromCache(spriteImage),
-    srcPosition: Vector2(x, y),
-    srcSize: Vector2(width, height),
-  );
+  bool _isJumpingKeyPressed(Set<LogicalKeyboardKey> keysPressed) {
+    return keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
+        keysPressed.contains(LogicalKeyboardKey.keyW);
+  }
+
+  bool _isMovementKeyPressed(Set<LogicalKeyboardKey> keysPressed) {
+    return _containsKey(keysPressed, arrowKeys) ||
+        _containsKey(keysPressed, movementKeys);
+  }
+
+  bool _containsKey(
+      Set<LogicalKeyboardKey> keysPressed, List<LogicalKeyboardKey> validKeys) {
+    for (LogicalKeyboardKey arrowKey in keysPressed) {
+      if (validKeys.contains(arrowKey)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
