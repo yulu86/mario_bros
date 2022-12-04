@@ -5,6 +5,7 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter/services.dart';
+import 'package:mario_bros/src/game_controller.dart';
 import 'package:mario_bros/src/player/mario/mario.dart';
 import 'package:mario_bros/src/player/player.dart';
 
@@ -14,20 +15,6 @@ class MarioGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
   late final Player player;
 
   final double startSpeed = 600;
-
-  static final List<LogicalKeyboardKey> arrowKeys = [
-    LogicalKeyboardKey.arrowDown,
-    LogicalKeyboardKey.arrowUp,
-    LogicalKeyboardKey.arrowLeft,
-    LogicalKeyboardKey.arrowRight,
-  ];
-
-  static final List<LogicalKeyboardKey> movementKeys = [
-    LogicalKeyboardKey.keyW,
-    LogicalKeyboardKey.keyS,
-    LogicalKeyboardKey.keyA,
-    LogicalKeyboardKey.keyD,
-  ];
 
   @override
   Color backgroundColor() {
@@ -45,30 +32,24 @@ class MarioGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    // 跳跃
-    if (_isJumpingKeyPressed(keysPressed)) {
-      player.jump(startSpeed, MoveDirection.none);
-    }
-    return KeyEventResult.handled;
-  }
-
-  bool _isJumpingKeyPressed(Set<LogicalKeyboardKey> keysPressed) {
-    return keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
-        keysPressed.contains(LogicalKeyboardKey.keyW);
-  }
-
-  bool _isMovementKeyPressed(Set<LogicalKeyboardKey> keysPressed) {
-    return _containsKey(keysPressed, arrowKeys) ||
-        _containsKey(keysPressed, movementKeys);
-  }
-
-  bool _containsKey(
-      Set<LogicalKeyboardKey> keysPressed, List<LogicalKeyboardKey> validKeys) {
-    for (LogicalKeyboardKey arrowKey in keysPressed) {
-      if (validKeys.contains(arrowKey)) {
-        return true;
+    final isKeyDown = event is RawKeyDownEvent;
+    if (isKeyDown) {
+      // 跳跃
+      if (isJumpingKeyPressed(keysPressed)) {
+        player.jump(startSpeed, MoveDirection.none);
       }
+      // 向左奔跑
+      else if (isRunningLeftKeyPressed(keysPressed)) {
+        player.run(startSpeed, MoveDirection.left);
+      }
+      // 向右奔跑
+      else if (isRunningRightKeyPressed(keysPressed)) {
+        player.run(startSpeed, MoveDirection.right);
+      }
+    } else {
+      player.reset();
     }
-    return false;
+
+    return KeyEventResult.handled;
   }
 }
