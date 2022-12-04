@@ -28,7 +28,7 @@ abstract class Player extends SpriteAnimationGroupComponent<PlayerState>
   double _currentJumpVelocity = 0.0;
 
   /// 初始奔跑速度
-  final double initialRunningVelocity = 15.0;
+  final double initialRunningVelocity = 0.1;
 
   // 当前奔跑速度
   double _currentRunningVelocity = 0.0;
@@ -60,11 +60,28 @@ abstract class Player extends SpriteAnimationGroupComponent<PlayerState>
   void update(double dt) {
     super.update(dt);
     if (current == PlayerState.jumping) {
+      if (_currentRunningVelocity > 0) {
+        x += _currentRunningVelocity;
+        _currentRunningVelocity -= gravity;
+      } else if (_currentRunningVelocity < 0) {
+        x += _currentRunningVelocity;
+        _currentRunningVelocity += gravity;
+      }
+
       // 更新玩家Y轴位置
       y += _currentJumpVelocity;
       _currentJumpVelocity += gravity;
+
       if (y > groundYPosition) {
         reset();
+      }
+    } else if (current == PlayerState.running) {
+      if (_currentRunningVelocity > 0) {
+        x += _currentRunningVelocity;
+        _currentRunningVelocity -= gravity;
+      } else if (_currentRunningVelocity < 0) {
+        x += _currentRunningVelocity;
+        _currentRunningVelocity += gravity;
       }
     }
   }
@@ -84,6 +101,7 @@ abstract class Player extends SpriteAnimationGroupComponent<PlayerState>
   /// 奔跑
   void run(double speed, RunningDirection runningDirection) {
     current = PlayerState.running;
+    _currentRunningVelocity = -initialJumpVelocity - (speed / 500);
   }
 
   /// 等待
