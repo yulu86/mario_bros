@@ -35,6 +35,7 @@ abstract class Player extends SpriteAnimationGroupComponent<PlayerState>
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
+    x = startXPosition;
     y = groundYPosition;
   }
 
