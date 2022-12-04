@@ -27,6 +27,12 @@ abstract class Player extends SpriteAnimationGroupComponent<PlayerState>
   // 当前跳跃速度
   double _currentJumpVelocity = 0.0;
 
+  /// 初始奔跑速度
+  final double initialRunningVelocity = 15.0;
+
+  // 当前奔跑速度
+  double _currentRunningVelocity = 0.0;
+
   /// 玩家Y轴高度
   double get groundYPosition {
     return gameRef.size.y / 2 - height / 2;
