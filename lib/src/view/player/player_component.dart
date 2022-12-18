@@ -1,11 +1,13 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/services.dart';
 import 'package:mario_bros/src/mario_game.dart';
+import 'package:mario_bros/src/model/const.dart';
 import 'package:mario_bros/src/model/player/player.dart';
 import 'package:mario_bros/src/view/game_view.dart';
 
 abstract class PlayerComponent extends SpriteAnimationGroupComponent<String>
-    with HasGameRef<MarioGame> {
+    with HasGameRef<MarioGame>, KeyboardHandler, CollisionCallbacks {
   static final defaultSize = Vector2.all(16.0);
 
   PlayerComponent({required this.gridPosition})
@@ -27,6 +29,38 @@ abstract class PlayerComponent extends SpriteAnimationGroupComponent<String>
 
     // 设置位置
     _setupPosition();
+  }
+
+  @override
+  void update(double dt) {
+    current = player.currentState;
+    position += player.updateVelocity() * dt;
+
+    _removeIfOutOfEdge();
+
+    super.update(dt);
+  }
+
+  @override
+  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    if (keysPressed.contains(LogicalKeyboardKey.keyA) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
+      if (player.direction != MoveDirection.left) {
+        flipHorizontally();
+      }
+      player.run(MoveDirection.left);
+    } else if (keysPressed.contains(LogicalKeyboardKey.keyD) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
+      if (player.direction != MoveDirection.right) {
+        flipHorizontally();
+      }
+      player.run(MoveDirection.right);
+    } else if (keysPressed.contains(LogicalKeyboardKey.keyW) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
+        keysPressed.contains(LogicalKeyboardKey.space)) {
+      player.jump();
+    }
+    return true;
   }
 
   Map<String, SpriteAnimation> getAnimations();
@@ -74,6 +108,11 @@ abstract class PlayerComponent extends SpriteAnimationGroupComponent<String>
       unitSize * gridPosition.x,
       gameRef.size.y - unitSize * gridPosition.y,
     );
-    print("position=$position, size=$size");
+  }
+
+  void _removeIfOutOfEdge() {
+    if (position.x < 0 || position.y > gameRef.y) {
+      removeFromParent();
+    }
   }
 }
