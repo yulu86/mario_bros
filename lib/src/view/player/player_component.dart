@@ -100,7 +100,6 @@ abstract class PlayerComponent extends SpriteAnimationGroupComponent<String>
   void _setupAnimations() {
     animations = getAnimations();
     current = player.currentState;
-    print("currunt=$current");
   }
 
   void _setupPosition() {
