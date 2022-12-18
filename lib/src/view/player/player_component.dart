@@ -111,7 +111,7 @@ abstract class PlayerComponent extends SpriteAnimationGroupComponent<String>
   }
 
   void _removeIfOutOfEdge() {
-    if (position.x < 0 || position.y > gameRef.y) {
+    if (position.x < 0 || position.y > gameRef.size.y) {
       removeFromParent();
     }
   }
