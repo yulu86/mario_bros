@@ -1,61 +1,64 @@
 import 'package:flame/components.dart';
 import 'package:mario_bros/src/model/const.dart';
 
-enum PlayerCharacter {
-  mario,
-  luigi,
-}
-
 enum PlayerState {
-  // 0
-  waiting,
-  // 1
-  running,
-  // 2
-  jumping,
-  // 3
-  crashed,
+  waiting('waiting'),
+  running('running'),
+  jumping('jumping'),
+  crashed('crashed');
+
+  final String value;
+
+  const PlayerState(this.value);
 }
 
 enum PlayerMode {
-  // 0
-  normal,
-  // 1
-  large,
-  // 3
-  power,
+  normal('normal'),
+  large('large'),
+  power('power');
+
+  final String value;
+
+  const PlayerMode(this.value);
 }
 
 class Player {
   static const _horizontalSpeed = 500.0;
-  static const _verticalSpeed = 50;
+  static const _verticalSpeed = 50.0;
 
-  Player({required this.character});
-
-  final PlayerCharacter character;
+  Player();
 
   PlayerState _playerState = PlayerState.waiting;
   PlayerMode _playerMode = PlayerMode.normal;
   Vector2 _velocity = Vector2.zero();
 
-  PlayerState get playerState => _playerState;
+  String get currentState => "${_playerState.value}#${_playerMode.value}";
 
-  PlayerMode get playerMode => _playerMode;
+  Vector2 get velocity => _velocity;
 
+  /// 跑动
   void run(MoveDirection direction) {
-    _velocity.x = _horizontalSpeed * _directionValue(direction);
+    _playerState = PlayerState.running;
+    _velocity.x = _horizontalSpeed * direction.value;
   }
 
+  /// 等待
   void wait() {
+    _playerState = PlayerState.waiting;
     _velocity.x = 0;
     _velocity.y = 0;
   }
 
+  /// 跳跃
   void jump() {
-    _velocity.y = _horizontalSpeed;
+    _playerState = PlayerState.jumping;
+    _velocity.y = _verticalSpeed;
   }
 
-  int _directionValue(MoveDirection direction) {
-    return direction == MoveDirection.left ? -1 : 1;
+  /// 失败
+  void crash() {
+    _playerState = PlayerState.crashed;
+    _velocity.x = 0;
+    _velocity.y = 0;
   }
 }
