@@ -4,7 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:mario_bros/src/view/game_view.dart';
-import 'package:mario_bros/src/view/player/mario.dart';
+import 'package:mario_bros/src/view/player/mario_component.dart';
 
 class MarioGame extends FlameGame
     with HasKeyboardHandlerComponents, HasCollisionDetection {

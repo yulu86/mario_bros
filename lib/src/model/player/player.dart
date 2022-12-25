@@ -5,6 +5,7 @@ enum PlayerState {
   waiting('waiting'),
   running('running'),
   jumping('jumping'),
+  squat('squat'),
   crashed('crashed');
 
   final String value;
@@ -31,7 +32,7 @@ class Player {
   PlayerState _playerState = PlayerState.waiting;
   PlayerMode _playerMode = PlayerMode.normal;
   MoveDirection _direction = MoveDirection.right;
-  final Vector2 _velocity = Vector2.zero();
+  Vector2 _velocity = Vector2.zero();
 
   PlayerState get playerState {
     if (_playerState == PlayerState.running && velocity.isZero()) {
